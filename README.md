@@ -10,11 +10,11 @@ TinCat is a responsive web application built with Bootstrap, providing a seamles
 
 - **Gradient Background**: A beautiful and animated gradient that provides a lively backdrop to the user experience.
 
-  ![Preview of Gradient Background](images/Preview1.gif)
+  ![Preview of Gradient Background](images/TinCat1.png)
 
 - **Responsive Layout**: Fully responsive design that looks great on desktop and mobile phones.
 
-![Preview of Responsive Layout](images/Preview2.gif)
+![Preview of Responsive Layout](images/TinCat.png)
 
 - **Testimonials**: Real-world success stories from happy felines who've found love through TinCat.
 
@@ -22,7 +22,7 @@ TinCat is a responsive web application built with Bootstrap, providing a seamles
 
 - **Pricing Plans**: Multiple subscription options tailored to fit the needs of every cat.
 
-![Preview of Pricing Plans](images/Preview4.gif)
+![Preview of Pricing Plans](images/TinCat2.png)
 
 ## Getting Started
 
