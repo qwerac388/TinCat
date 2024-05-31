@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up</title>
+    <!-- bootstrap-->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <!--css stylesheet-->
+    <link rel="stylesheet" href="style.css" />
+    <!--fav icon-->
+    <link rel="icon" href="./images/cupid-arrow.png" type="image/x-icon" />
+  </head>
+  <body>
+    <header class="p-3 text-bg-dark">
+      <div class="container">
+        <div
+          class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"
+        >
+          <a href="/" style="text-decoration: none; color: inherit"
+            ><h1>TinCat</h1></a
+          >
+
+          <img
+            src="./images/cupid-arrow.png"
+            alt="cupid-arrow"
+            height="40"
+            class="px-2"
+          />
+        </div>
+      </div>
+    </header>
+    <main class="form-signin">
+      <div class="d-flex justify-content-center align-items-center">
+        <form
+          class="col-10 col-sm-6 col-lg-4 mx-auto"
+          action="/signup"
+          method="POST"
+        >
+          <h1 class="h3 mb-3 fw-normal text-center mt-5">Sign Up</h1>
+          <div class="form-floating">
+            <input
+              type="text"
+              class="form-control"
+              id="floatingInput"
+              name="username"
+              placeholder="Username"
+              required
+            />
+            <label for="floatingInput">Username</label>
+            <div class="form-text">
+              Username should be 3-16 characters long.
+            </div>
+            <div class="form-text text-danger"><%= locals.message %></div>
+          </div>
+          <div class="form-floating">
+            <input
+              type="email"
+              class="form-control"
+              id="floatingInput"
+              placeholder="name@example.com"
+              name="email"
+              required
+            />
+            <label for="floatingInput">Email address</label>
+            <div class="form-text">
+              Please enter a valid email address (e.g., user@gmail.com).
+            </div>
+            <div class="form-text text-danger"><%= locals.message %></div>
+          </div>
+          <div class="form-floating">
+            <input
+              type="password"
+              class="form-control"
+              id="floatingPassword"
+              placeholder="Password"
+              name="password"
+              required
+            />
+            <label for="floatingPassword">Password</label>
+            <div class="form-text">
+              Password must be at least 8 characters and include a number and a
+              letter.
+            </div>
+          </div>
+
+          <button class="btn btn-dark w-100 py-2 mt-2" type="submit">
+            Sign up
+          </button>
+
+          <p>Already a member ? <a href="/login">Log In</a></p>
+          <p class="mt-5 mb-3 text-body-secondary text-center">
+            © 2024 TinCat, Inc. All rights reserved.
+          </p>
+        </form>
+      </div>
+    </main>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
