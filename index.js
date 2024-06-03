@@ -16,7 +16,7 @@ app.use(express.static("public"));
 //   port: 5432,
 // });
 
-const { Pool } = require("pg");
+import { Pool } from "pg";
 const db = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
