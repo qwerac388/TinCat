@@ -1,6 +1,6 @@
-import express from "express";
-import bodyParser from "body-parser";
-import pg from "pg";
+const express = require("express");
+const bodyParser = require("body-parser");
+const { Pool } = require("pg");
 
 const app = express();
 const port = 3000;
@@ -16,7 +16,6 @@ app.use(express.static("public"));
 //   port: 5432,
 // });
 
-import { Pool } from "pg";
 const db = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
