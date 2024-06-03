@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const { Pool } = require("pg");
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000; // Fallback to 3000 if process.env.PORT is not defined
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
