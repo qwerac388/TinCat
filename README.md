@@ -1,10 +1,19 @@
 # TinCat - The Feline Dating App
 
-Welcome to the official repository for TinCat, the feline dating app where local kitties find their purr-fect match. Our application provides an intuitive platform for our feline friends to meet, socialize, and fall in love. This README serves as a guide to the structure and setup of the project, including new full-stack functionalities.
+Welcome to the official repository for TinCat, the premier feline dating app. TinCat is designed as a full-stack web application that enables local kitties to find their purr-fect match through a seamless user experience. This README provides a comprehensive guide to understanding the project's structure, setup, and particularly its full-stack capabilities, including user account management and database interactions.
 
-## Project Overview
+## Full-Stack Functionality
 
-TinCat is a responsive web application built with Bootstrap, Node.js, and PostgreSQL, providing a seamless and intuitive user experience across all devices. The app features a vibrant gradient background, playful icons, and a gallery of charming cat profiles.
+TinCat leverages the power of Bootstrap for front-end responsiveness, Node.js for server-side logic, and PostgreSQL for robust data management. This combination ensures a seamless and efficient platform where users can:
+
+- **Sign Up**: Create new user accounts. The registration process captures user information and stores it securely in our PostgreSQL database, ensuring that each account is unique and protected.
+- **Log In**: Return users can log in using their credentials. The authentication process is managed through Node.js, interfacing with PostgreSQL to retrieve and verify user data.
+- **Checkout Page**: Users interested in purchasing the Elite Plan can use a promo code for discounts, fill out billing information, and complete their transactions. The checkout process is backed by our secure server-side logic, ensuring that all transactions are handled safely and efficiently.
+- **Error Handling**: Comprehensive error handling is included to ensure a smooth user experience. This includes validation of promo codes during checkout, unique constraints on usernames and emails during registration, and proper feedback for login issues like incorrect passwords or unrecognized email addresses.
+
+### Project Overview
+
+TinCat is not just about beautiful interfaces; it's about creating a robust application that handles real-world user data efficiently and securely. The app features a vibrant gradient background, playful icons, and a gallery of charming cat profiles, enhancing the overall user experience across all devices.
 
 ### Features
 
@@ -12,24 +21,45 @@ TinCat is a responsive web application built with Bootstrap, Node.js, and Postgr
 
   ![Preview of Gradient Background](public/images/Preview1.png)
 
+---
+
 - **Responsive Layout**: Fully responsive design that looks great on desktop and mobile phones.
 
-![Preview of Responsive Layout](public/images/Preview2.png)
+<div align="center">
+  <img src="public/images/Preview2.png" alt="Preview of Responsive Layout" width="300">
+</div>
+
+---
 
 - **User Registration**: Users can sign up on the Sign Up page. The user's information is stored in a PostgreSQL database.
 
-![Preview of User Registration](public/images/Preview4.png)
+<div align="center">
+  <img src="public/images/Preview4.png" alt="Preview of User Registration" width="300">
+</div>
+
 ![Preview of Account Created Page](public/images/Preview6.png)
+
+---
 
 - **Login Page**: On the Login page, users can enter their credentials. If authenticated successfully, they are redirected to the homepage with a personalized welcome message.
 
-![Preview of Login Page](public/images/Preview3.png)
-![Preview of Welcome Msg](public/images/Preview5.png)
+<div align="center">
+  <img src="public/images/Preview3.png" alt="Preview of Login Page" width="300">
+</div>
+
+<div align="center">
+  <img src="public/images/Preview5.png" alt="Preview of Welcome Message" width="300">
+</div>
+
+---
 
 - **Checkout Page**: Users interested in the Elite Plan can use a promo code for a $10 discount, fill out billing information, and are redirected to a payment success page.
 
 ![Preview of CheckOut Page ](public/images/Preview8.png)
+
 ![Preview of Payment Success Page ](public/images/Preview9.png)
+
+---
 
 - **Newsletter Subscription**: Users can subscribe to the TinCat newsletter from the homepage. Upon successful subscription, a confirmation message pops up to alert the user.
 
@@ -47,7 +77,10 @@ During the checkout process, users can enter promo codes to receive discounts on
 - **User Feedback**: A pop-up message stating "Invalid promo code." appears, allowing the user to correct their input.
 
 Example of error feedback on the checkout page:
-![Invalid Promo Code Error](public/images/Preview10.png)
+
+<div style="text-align: center;">
+  <img src="public/images/Preview10.png" alt="Invalid Promo Code Error" width="300">
+</div>
 
 ## Unique Username and Email Constraint
 
@@ -58,7 +91,10 @@ When new user attempts to create an account, TinCat requires unique username and
 - **Implementation**: The back-end checks the submitted username and email against the PostgreSQL database. If a match is found, the error message is triggered and displayed.
 
 Example of error feedback on the sign-up page:
-![Username or Email Exists Error](public/images/Preview11.png)
+
+<div style="text-align: center;">
+  <img src="public/images/Preview11.png" alt="Username or Email Exists Error" width="300">
+</div>
 
 # Error Handling on the Login Page
 
@@ -73,7 +109,10 @@ When a user enters a password that does not match the one stored in the database
 - **Implementation Details**: This check is performed after verifying that the email exists in the database. If the passwords do not match, the `login.ejs` view is re-rendered with the appropriate error message.
 
 Example of error feedback for incorrect password on login page:
-![Password Error for Login Page](public/images/Preview14.png)
+
+<div style="text-align: center;">
+  <img src="public/images/Preview14.png" alt="Password Error for Login Page" width="300">
+</div>
 
 ## Unrecognized Email
 
@@ -84,8 +123,11 @@ If a user attempts to log in with an email address that is not found in the data
 - **Implementation Details**: This condition is checked first in the login sequence. If the query to the database returns no matching records, the `login.ejs` view is rendered again with the specified error message.
 
 Example of error feedback for unrecognized email on login page:
-![Email Error for Login Page](public/images/Preview13.png)
+
+<div style="text-align: center;">
+  <img src="public/images/Preview13.png" alt="Email Error for Login Page" width="300">
+</div>
 
 ## Getting Started
 
-To get started with the TinCat project, check it out here: [TinCat](https://qwerac388.github.io/TinCat/)
+To get started with the TinCat project, check it out here: [TinCat](https://tincat-8c090ed5672b.herokuapp.com/#title)

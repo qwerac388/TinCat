@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const { Pool } = require("pg");
+const pg = require("pg");
 
 const app = express();
 const port = process.env.PORT || 3000; // Fallback to 3000 if process.env.PORT is not defined
