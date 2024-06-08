@@ -65,6 +65,22 @@ TinCat is not just about beautiful interfaces; it's about creating a robust appl
 
 ![Preview of Newsletter Subscription Page ](public/images/Preview12.png)
 
+# Security and Session Management
+
+To enhance security, TinCat now uses bcrypt for encrypting passwords and manages user sessions with cookies that last for 24 hours. Additionally, environment variables are used for sensitive configurations.
+
+## Password Encryption
+
+Passwords are hashed using bcrypt with a salt round of 10, ensuring that user credentials are stored securely in the database.
+
+## Session Management
+
+User sessions are managed with cookies that have a 24-hour expiration period. This ensures that users can remain logged in for a day without needing to re-enter their credentials.
+
+## Environment Variables
+
+Sensitive information, such as database credentials and session secrets, are managed using environment variables. This prevents exposure of critical data in the codebase.
+
 # Error Handling in TinCat
 
 TinCat implements robust error handling to ensure a smooth user experience during account creation, login, and promotional code redemption processes. Below are details on how specific errors are managed.

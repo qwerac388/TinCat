@@ -66,13 +66,13 @@
                 <p id="user-name" class="mt-4">
                   <%= locals.username ? `Welcome Back, ${username}`: ' '%>
                 </p>
-                <a href="/" style="text-decoration: none"
+                <a href="/logout" style="text-decoration: none"
                   ><button
                     type="button"
                     class="btn btn-warning mx-3 mt-3"
                     id="logout"
-                    onclick="handleClick2()"
                     style="display: <%= locals.username ? 'block': 'none'%>"
+                    onclick="handleClick2()"
                   >
                     Logout
                   </button></a

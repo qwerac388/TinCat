@@ -2,19 +2,34 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const { Pool } = require("pg");
 const pg = require("pg");
-
+const bcrypt = require("bcrypt");
 const app = express();
+const session = require("express-session");
 const port = process.env.PORT || 3000; // Fallback to 3000 if process.env.PORT is not defined
+const saltRounds = 10;
+const env = require("dotenv");
+
+env.config();
+
+// Session configuration
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false, maxAge: 1000 * 60 * 60 * 24 }, // 24 hours
+  })
+);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 // const db = new pg.Client({
-//   user: "postgres",
-//   host: "localhost",
-//   database: "TinCat",
-//   password: "zoo0330",
-//   port: 5432,
+//   user: process.env.PG_USER,
+//   host: process.env.PG_HOST,
+//   database: process.env.PG_DATABASE,
+//   password: process.env.PG_PASSWORD,
+//   port: process.env.PG_PORT,
 // });
 
 const db = new Pool({
@@ -27,10 +42,12 @@ const db = new Pool({
 db.connect();
 
 app.get("/", (req, res) => {
-  const username = req.query.username;
-  if (username) {
-    res.render("homepage.ejs", { username: username });
+  // Check if user session exists
+  if (req.session.user) {
+    // Render homepage with username from session
+    res.render("homepage.ejs", { username: req.session.user.username });
   } else {
+    // Render homepage normally if no user is logged in
     res.render("homepage.ejs");
   }
 });
@@ -57,6 +74,16 @@ app.get("/payment-success", (req, res) => {
   res.render("payment-success.ejs", { username: username });
 });
 
+app.get("/logout", (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.log("Error destroying session:", err);
+      return res.redirect("/");
+    }
+    res.redirect("/");
+  });
+});
+
 // User signup
 app.post("/signup", async (req, res) => {
   const { username, email, password } = req.body;
@@ -64,22 +91,45 @@ app.post("/signup", async (req, res) => {
   console.log(email);
   console.log(password);
   try {
-    const result = await db.query(
-      "INSERT INTO users(username, email, password) VALUES($1, $2, $3) RETURNING id, username",
-      [username, email, password]
-    );
+    const result = await db.query("SELECT * FROM users WHERE email = $1", [
+      email,
+    ]);
     console.log(result);
     if (result.rows.length > 0) {
-      const user = result.rows[0];
-      console.log(user);
-      res.redirect(
-        `/account-created?username=${encodeURIComponent(user.username)}`
-      );
+      res.render("signup.ejs", {
+        message: "Email already exists, please try again.",
+      });
+    } else {
+      bcrypt.hash(password, saltRounds, async (err, hash) => {
+        if (err) {
+          console.log("Error Hashing password:", err);
+        } else {
+          console.log("Hashed Password:", hash);
+
+          const result = await db.query(
+            "INSERT INTO users(username, email, password) VALUES($1, $2, $3) RETURNING id, username",
+            [username, email, hash]
+          );
+          if (result.rows.length > 0) {
+            const user = result.rows[0];
+            // Save the user info in session
+            req.session.user = {
+              id: user.id,
+              username: user.username,
+              email: user.email,
+            };
+            console.log(user);
+            res.redirect(
+              `/account-created?username=${encodeURIComponent(user.username)}`
+            );
+          }
+        }
+      });
     }
   } catch (err) {
     console.error(err);
     res.render("signup.ejs", {
-      message: "Username/Email already exists, please try again.",
+      message: "Failed to signup due to server error",
     });
   }
 });
@@ -93,23 +143,24 @@ app.post("/login", async (req, res) => {
     const result = await db.query("SELECT * FROM users WHERE email = $1", [
       email,
     ]);
-
-    console.log(result);
     if (result.rows.length > 0) {
       const user = result.rows[0];
-      console.log(user);
-
-      if (password == user.password) {
-        // If passwords match, redirect to the homepage with the user's username
+      const storedHashedPassword = user.password;
+      const isMatch = await bcrypt.compare(password, storedHashedPassword);
+      if (isMatch) {
+        // Save the user info in session
+        req.session.user = {
+          id: user.id,
+          username: user.username,
+          email: user.email,
+        };
         res.render("homepage.ejs", { username: user.username });
       } else {
-        // If passwords do not match, reload login page with error message
         res.render("login.ejs", {
           message: "The password you entered is incorrect. Please try again.",
         });
       }
     } else {
-      // No user found with the provided email
       res.render("login.ejs", {
         message:
           "No account found with that email. Please check your entry or register.",
@@ -130,22 +181,44 @@ app.post("/checkoutpage", async (req, res) => {
   console.log(email);
   console.log(password);
   try {
-    const result = await db.query(
-      "INSERT INTO users(username, email, password) VALUES($1, $2, $3) RETURNING id, username",
-      [username, email, password]
-    );
+    const result = await db.query("SELECT * FROM users WHERE email = $1", [
+      email,
+    ]);
     console.log(result);
     if (result.rows.length > 0) {
-      const user = result.rows[0];
-      console.log(user);
-      res.redirect(
-        `/payment-success?username=${encodeURIComponent(user.username)}`
-      );
+      res.render("checkoutpage.ejs", {
+        message: "Email already exists, please try again.",
+      });
+    } else {
+      bcrypt.hash(password, saltRounds, async (err, hash) => {
+        if (err) {
+          console.log("Error Hashing password:", err);
+        } else {
+          console.log("Hashed Password:", hash);
+          const result = await db.query(
+            "INSERT INTO users(username, email, password) VALUES($1, $2, $3) RETURNING id, username",
+            [username, email, hash]
+          );
+          if (result.rows.length > 0) {
+            const user = result.rows[0];
+            // Save the user info in session
+            req.session.user = {
+              id: user.id,
+              username: user.username,
+              email: user.email,
+            };
+            console.log(user);
+            res.redirect(
+              `/payment-success?username=${encodeURIComponent(user.username)}`
+            );
+          }
+        }
+      });
     }
   } catch (err) {
     console.error(err);
     res.render("checkoutpage.ejs", {
-      message: "Username/Email already exists, please try again.",
+      message: "Failed to signup due to server error",
     });
   }
 });
