@@ -9,6 +9,9 @@
     "start": "node index.js",
     "postinstall": "npm rebuild"
   },
+  "engines": {
+    "node": "20.x"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
