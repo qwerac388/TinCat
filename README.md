@@ -67,7 +67,7 @@ TinCat is not just about beautiful interfaces; it's about creating a robust appl
 
 # Security and Session Management
 
-To enhance security, TinCat now uses bcrypt for encrypting passwords and manages user sessions with cookies that last for 24 hours. Additionally, environment variables are used for sensitive configurations.
+To enhance security, TinCat uses bcrypt for encrypting passwords and manages user sessions with cookies that last for 24 hours. Additionally, environment variables are used for sensitive configurations.
 
 ## Password Encryption
 
@@ -98,13 +98,13 @@ Example of error feedback on the checkout page:
   <img src="public/images/Preview10.png" alt="Invalid Promo Code Error" width="300">
 </div>
 
-## Unique Username and Email Constraint
+## Unique Email Constraint
 
-When new user attempts to create an account, TinCat requires unique username and email address to avoid duplication. If an attempt is made to register with an already existing username or email, the system responds accordingly:
+When new user attempts to create an account, TinCat requires unique email address to avoid duplication. If an attempt is made to register with an already existing email, the system responds accordingly:
 
-- **Error Condition**: User tries to sign up using a username or email that is already registered in the system.
-- **User Feedback**: An error message "Username/Email already exists, please try again." is displayed on the sign-up page, prompting the user to provide a different username or email.
-- **Implementation**: The back-end checks the submitted username and email against the PostgreSQL database. If a match is found, the error message is triggered and displayed.
+- **Error Condition**: User tries to sign up using an email that is already registered in the system.
+- **User Feedback**: An error message "Username already exists, please try again." is displayed on the sign-up page, prompting the user to provide a different email.
+- **Implementation**: The back-end checks the submitted email against the PostgreSQL database. If a match is found, the error message is triggered and displayed.
 
 Example of error feedback on the sign-up page:
 
@@ -120,9 +120,9 @@ TinCat's login page incorporates comprehensive error handling to ensure a seamle
 
 When a user enters a password that does not match the one stored in the database, the following actions are taken:
 
-- **Error Condition**: The password entered by the user does not match the corresponding password in the database for the provided email.
+- **Error Condition**: The password entered by the user does not match the corresponding hashed password in the database for the provided email.
 - **User Feedback**: The system displays a clear and concise error message: "The password you entered is incorrect. Please try again." This message is intended to inform the user that the specific issue is with the password, encouraging them to try again or reset their password if necessary.
-- **Implementation Details**: This check is performed after verifying that the email exists in the database. If the passwords do not match, the `login.ejs` view is re-rendered with the appropriate error message.
+- **Implementation Details**: This check is performed after verifying that the email exists in the database. The entered password is hashed using bcrypt and then compared with the stored hashed password. If the passwords do not match, the login.ejs view is re-rendered with the appropriate error message.
 
 Example of error feedback for incorrect password on login page:
 
@@ -146,4 +146,4 @@ Example of error feedback for unrecognized email on login page:
 
 ## Getting Started
 
-To get started with the TinCat project, check it out here: [TinCat](https://tincat-8c090ed5672b.herokuapp.com/#title)
+To get started with the TinCat project, check it out here: [TinCat](https://tincatapp-494be906216d.herokuapp.com/)
