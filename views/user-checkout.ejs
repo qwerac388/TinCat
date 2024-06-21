@@ -37,14 +37,13 @@
               "Exclusive Offer for You: Use WELCOME2024 and Get $10 Off!"
             </h3>
           </div>
-          
         </div>
       </div>
     </header>
     <div class="container">
       <main>
         <div class="py-5 text-center">
-          <h2>Join our Elite Plan</h2>
+          <h2>Just One Paw Step Away from TinCat Elite! 🐾</h2>
           <p class="lead"></p>
         </div>
 
@@ -54,7 +53,7 @@
               <span class="text-primary">Your cart</span>
               <span class="badge bg-primary rounded-pill">1</span>
             </h4>
-            <form class="card p-2" action="/apply-promo" method="POST">
+            <form class="card p-2" action="/apply-promo2" method="POST">
               <ul class="list-group mb-3">
                 <li
                   class="list-group-item d-flex justify-content-between lh-sm"
@@ -110,54 +109,13 @@
             </form>
           </div>
           <div class="col-md-7 col-lg-8">
-            <h4 class="mb-3">Sign Up</h4>
-            <%= locals.username ? username: "UserName"%>
-            <form action="/checkoutpage" method="POST">
+            <h4 class="mb-3">
+              Hey, <%= locals.username ? username: "Error"%>!
+            </h4>
+            <h4>Don't let this chance slip through your claws!</h4>
+            <h4>Fill out below form and let the elite catventure begin.🐱✨</h4>
+            <form action="/user-checkout" method="POST">
               <div class="row g-3">
-                <div class="form-floating">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="floatingInput"
-                    name="username"
-                    placeholder="Username"
-                    required
-                  />
-                  <label for="floatingInput">Username</label>
-                  <div class="form-text">
-                    Username should be 3-16 characters long.
-                  </div>
-                 
-                <div class="form-floating">
-                  <input
-                    type="email"
-                    class="form-control"
-                    id="floatingInput"
-                    placeholder="name@example.com"
-                    name="email"
-                    required
-                  />
-                  <label for="floatingInput">Email address</label>
-                  <div class="form-text">
-                    Please enter a valid email address (e.g., user@gmail.com).
-                  </div>
-                  <div class="form-text text-danger"><%= locals.message %></div>
-                </div>
-                <div class="form-floating">
-                  <input
-                    type="password"
-                    class="form-control"
-                    id="floatingPassword"
-                    placeholder="Password"
-                    name="password"
-                    required
-                  />
-                  <label for="floatingPassword">Password</label>
-                  <div class="form-text">
-                    Password must be at least 8 characters and include a number
-                    and a letter.
-                  </div>
-                </div>
                 <hr class="my-4" />
                 <h4 class="mb-3">Billing address</h4>
                 <div class="col-12">

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User</title>
+    <!-- bootstrap-->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="canonical"
+      href="https://getbootstrap.com/docs/5.3/examples/carousel/"
+    />
+    <!--css stylesheet-->
+    <link rel="stylesheet" href="styles/user.css" />
+    <!-- FontAwesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!--fav icon-->
+    <link rel="icon" href="./images/cupid-arrow.png" type="image/x-icon" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
+  </head>
+  <body>
+    <!-- Header-->
+    <header class="p-3 text-bg-dark">
+      <div class="container">
+        <div
+          class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"
+        >
+          <a href="/" style="text-decoration: none; color: inherit"
+            ><h1>TinCat</h1></a
+          >
+          <img
+            src="./images/cupid-arrow.png"
+            alt="cupid-arrow"
+            height="40"
+            class="px-2"
+          />
+
+          <div class="d-flex mt-2 ms-auto">
+            <div class="mx-2 d-flex">
+              <% if (locals.username) { %>
+              <img
+                id="my-icon"
+                src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/271deea8-e28c-41a3-aaf5-2913f5f48be6/de7834s-6515bd40-8b2c-4dc6-a843-5ac1a95a8b55.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzI3MWRlZWE4LWUyOGMtNDFhMy1hYWY1LTI5MTNmNWY0OGJlNlwvZGU3ODM0cy02NTE1YmQ0MC04YjJjLTRkYzYtYTg0My01YWMxYTk1YThiNTUuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.BopkDn1ptIwbmcKHdAOlYHyAOOACXW0Zfgbs0-6BY-E"
+                alt="my-icon"
+              />
+              <p id="user-name" class="mt-4">Welcome Back, <%= username %></p>
+              <% } %>
+              <a href="/logout" style="text-decoration: none"
+                ><button
+                  type="button"
+                  class="btn btn-warning mx-3 mt-3"
+                  id="logout"
+                  style="display: <%= locals.username ? 'block': 'none'%>"
+                  onclick="handleClick2()"
+                >
+                  Logout
+                </button></a
+              >
+            </div>
+            <script>
+              function handleClick2() {
+                document.getElementById("user-name").style.display = "none";
+                document.getElementById("logout").style.display = "none";
+                document.getElementById("login").style.display = "block";
+                document.getElementById("sign-up").style.display = "block";
+              }
+            </script>
+            <form action="/login" method="GET">
+              <% if (locals.username) { %>
+              <div></div>
+              <% } else { %>
+              <a href="/login"
+                ><button
+                  type="button"
+                  class="btn btn-outline-light me-2"
+                  id="login"
+                >
+                  Login
+                </button></a
+              >
+              <% } %>
+            </form>
+            <form action="/signup" method="GET">
+              <% if (locals.username) { %>
+              <div></div>
+              <% } else { %>
+              <a href="/signup"
+                ><button type="button" class="btn btn-warning" id="sign-up">
+                  Sign-up
+                </button></a
+              >
+              <% } %>
+            </form>
+          </div>
+        </div>
+      </div>
+    </header>
+    <div class="gradient-background">
+      <h3 class="text-center pt-5 text-white card-title">
+        <%=locals.username ? username : 'Error'%>, 🐾 Let's start swiping!
+      </h3>
+      <div class="tinder">
+        <div class="tinder--status">
+          <i class="fa fa-remove"></i>
+          <i class="fa fa-heart"></i>
+        </div>
+
+        <div class="tinder--cards">
+          <div class="tinder--card">
+            <img
+              src="https://i.pinimg.com/564x/17/53/86/175386c35a8332b11cd1363baf739415.jpg"
+              alt="Parisian"
+            />
+
+            <h3>Luna, 3 <i class="fas fa-check-circle verified-icon"></i></h3>
+            <h5>
+              <i class="fas fa-map-marker-alt location-icon"></i> 2 miles away
+            </h5>
+          </div>
+          <div class="tinder--card">
+            <img
+              src="https://i.pinimg.com/736x/af/68/af/af68af855d6ac9f03f7767f8a0c2e2db.jpg"
+              alt="Pink Cat"
+            />
+            <h3>Molly, 5 <i class="fas fa-check-circle verified-icon"></i></h3>
+            <h5>
+              <i class="fas fa-map-marker-alt location-icon"></i> 5 miles away
+            </h5>
+          </div>
+          <div class="tinder--card">
+            <img
+              src="https://i.pinimg.com/564x/b5/fd/5f/b5fd5f00d3a068e1ad915ee1f5c6fcee.jpg"
+              alt="Rose Cat"
+            />
+            <h3>Chloe, 4</h3>
+            <h5>
+              <i class="fas fa-map-marker-alt location-icon"></i> 5 miles away
+            </h5>
+          </div>
+          <div class="tinder--card">
+            <img
+              src="https://i.pinimg.com/564x/e5/5b/2e/e55b2e876eea68fcd8894927d1075906.jpg"
+              alt="Pink Cat"
+            />
+            <h3>Bella, 6</h3>
+            <h5>
+              <i class="fas fa-map-marker-alt location-icon"></i> 8 miles away
+            </h5>
+          </div>
+          <div class="tinder--card">
+            <img
+              src="https://i.pinimg.com/564x/9c/49/9c/9c499c897bde9d242078b6ba30a715e7.jpg"
+              alt="Snow Cat"
+            />
+            <h3>Sophie, 4 <i class="fas fa-check-circle verified-icon"></i></h3>
+            <h5>
+              <i class="fas fa-map-marker-alt location-icon"></i> 10 miles away
+            </h5>
+          </div>
+          <section id="pricing">
+            <div class="col">
+              <div class="card mb-4 rounded-3 shadow-sm border-dark">
+                <div class="card-header py-3 text-bg-dark border-dark">
+                  <h4 class="my-0 fw-normal">Elite</h4>
+                </div>
+                <div class="card-body">
+                  <h1 class="card-title pricing-card-title">
+                    $69<small class="text-body-secondary fw-light">/mo</small>
+                  </h1>
+                  <ul class="list-unstyled mt-3 mb-4">
+                    <li>Priority Listing</li>
+                    <li>Unlimited Matches & Messages</li>
+                    <li>Unlimited App Usage</li>
+                  </ul>
+                  <a href="/checkoutpage"
+                    ><button type="button" class="w-100 btn btn-lg btn-dark">
+                      Get Started
+                    </button></a
+                  >
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <div class="tinder--buttons">
+          <button id="nope"><i class="fa fa-remove"></i></button>
+          <button id="love"><i class="fa fa-heart"></i></button>
+        </div>
+      </div>
+      <div class="chatbox">
+        <div class="chatbox-header">
+          <%=locals.TinCatUserName ? TinCatUserName : 'Error'%>
+        </div>
+        <div class="chatbox-messages"></div>
+        <input
+          type="text"
+          class="chatbox-input"
+          placeholder="Type a message..."
+        />
+        <button class="chatbox-send">Send</button>
+      </div>
+      <footer class="pt-5 py-3 text-body-secondary text-center text-small">
+        <p class="mb-1">© 2024 TinCat, Inc. All rights reserved.</p>
+      </footer>
+    </div>
+    <script src="/js/user.js"></script>
+  </body>
+</html>

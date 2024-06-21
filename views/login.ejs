@@ -12,7 +12,12 @@
       crossorigin="anonymous"
     />
     <!--css stylesheet-->
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="./styles/style.css" />
+    <!-- FontAwesome for social icons -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+      rel="stylesheet"
+    />
     <!--fav icon-->
     <link rel="icon" href="./images/cupid-arrow.png" type="image/x-icon" />
   </head>
@@ -70,11 +75,28 @@
           </button>
           <p class="text-danger"><%= locals.message ? message : `` %></p>
           <p>Not a member ? <a href="/signup">Sign Up</a></p>
-          <p class="mt-5 mb-3 text-body-secondary text-center">
-            © 2024 TinCat, Inc. All rights reserved.
-          </p>
         </form>
       </div>
+      <div>
+        <p class="text-center">Or</p>
+        <div class="">
+          <div class="text-center">
+            <a
+              class="btn btn-block google-btn"
+              href="/auth/google"
+              role="button"
+            >
+              <i class="fab fa-google"></i>
+              Login with Google
+            </a>
+          </div>
+        </div>
+      </div>
+      <footer>
+        <p class="mt-5 mb-3 text-body-secondary text-center">
+          © 2024 TinCat, Inc. All rights reserved.
+        </p>
+      </footer>
     </main>
 
     <script

@@ -8,6 +8,14 @@
   display: none;
 }
 
+#my-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50px;
+  border: 2px solid white;
+  margin-right: 10px;
+}
+
 /* #user-name {
   display: block;
 } */
@@ -15,6 +23,16 @@
 /* #logout {
   display: none;
 } */
+
+.google-btn {
+  background-color: #db4437; /* Google red color */
+  color: white;
+}
+.google-btn:hover {
+  background-color: #c23321; /* Darker Google red color */
+  color: white;
+}
+
 @keyframes gradient-animation {
   0% {
     background-position: 0% 50%;

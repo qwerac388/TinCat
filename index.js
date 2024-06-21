@@ -3,13 +3,29 @@ const bodyParser = require("body-parser");
 const { Pool } = require("pg");
 const pg = require("pg");
 const bcrypt = require("bcryptjs");
-const app = express();
+const passport = require("passport");
+const GoogleStrategy = require("passport-google-oauth2").Strategy;
 const session = require("express-session");
-const port = process.env.PORT || 3000; // Fallback to 3000 if process.env.PORT is not defined
+const app = express();
+const port = process.env.PORT || 3000;
 const saltRounds = 10;
 const env = require("dotenv");
 
+// TinCat user pool
+const TinCatUserName = ["Luna", "Molly", "Chloe", "Bella", "Sophie"];
+
 env.config();
+
+// Initialize database connection
+const db = new pg.Client({
+  user: process.env.PG_USER,
+  host: process.env.PG_HOST,
+  database: process.env.PG_DATABASE,
+  password: process.env.PG_PASSWORD,
+  port: process.env.PG_PORT,
+});
+
+db.connect();
 
 // Session configuration
 app.use(
@@ -21,40 +37,77 @@ app.use(
   })
 );
 
+// Passport configuration
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL:
+        "https://tincatapp-494be906216d.herokuapp.com/auth/google/callback",
+      passReqToCallback: true,
+    },
+    async (request, accessToken, refreshToken, profile, done) => {
+      try {
+        const result = await db.query("SELECT * FROM users WHERE email = $1", [
+          profile.email,
+        ]);
+        if (result.rows.length > 0) {
+          // User exists, log them in
+          return done(null, result.rows[0]);
+        } else {
+          // User doesn't exist, create a new user
+          const newUser = await db.query(
+            "INSERT INTO users(username, email, password) VALUES($1, $2, $3) RETURNING id, username",
+            [profile.displayName, profile.email, "google"]
+          );
+          return done(null, newUser.rows[0]);
+        }
+      } catch (err) {
+        return done(err, null);
+      }
+    }
+  )
+);
+
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+passport.deserializeUser(async (id, done) => {
+  try {
+    const result = await db.query("SELECT * FROM users WHERE id = $1", [id]);
+    done(null, result.rows[0]);
+  } catch (err) {
+    done(err, null);
+  }
+});
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-const db = new pg.Client({
-  user: process.env.PG_USER,
-  host: process.env.PG_HOST,
-  database: process.env.PG_DATABASE,
-  password: process.env.PG_PASSWORD,
-  port: process.env.PG_PORT,
-});
-
-// //For Heroku Deployment
-// const db = new Pool({
-//   connectionString: process.env.DATABASE_URL,
-//   ssl: {
-//     rejectUnauthorized: false,
-//   },
-// });
-
-db.connect();
-
+// Routes
 app.get("/", (req, res) => {
-  // Check if user session exists
   if (req.session.user) {
-    // Render homepage with username from session
     res.render("homepage.ejs", { username: req.session.user.username });
   } else {
-    // Render homepage normally if no user is logged in
     res.render("homepage.ejs");
   }
 });
 
+app.get("/user-checkout", (req, res) => {
+  res.render("user-checkout.ejs");
+});
+
 app.get("/checkoutpage", (req, res) => {
-  res.render("checkoutpage.ejs");
+  if (req.session.user) {
+    res.render("user-checkout.ejs", { username: req.session.user.username });
+  } else {
+    res.render("checkoutpage.ejs");
+  }
 });
 
 app.get("/login", (req, res) => {
@@ -84,6 +137,39 @@ app.get("/logout", (req, res) => {
     res.redirect("/");
   });
 });
+
+app.get("/user", (req, res) => {
+  const randomIndex = Math.floor(Math.random() * TinCatUserName.length);
+  const getRandomUserName = TinCatUserName[randomIndex];
+  if (req.session.user) {
+    res.render("user.ejs", {
+      username: req.session.user.username,
+      TinCatUserName: getRandomUserName,
+    });
+  } else {
+    res.render("user.ejs");
+  }
+});
+
+// Google OAuth routes
+app.get(
+  "/auth/google",
+  passport.authenticate("google", { scope: ["email", "profile"] })
+);
+
+app.get(
+  "/auth/google/callback",
+  passport.authenticate("google", { failureRedirect: "/login" }),
+  (req, res) => {
+    // Successful authentication, redirect to homepage with the user's username
+    req.session.user = {
+      id: req.user.id,
+      username: req.user.username,
+      email: req.user.email,
+    };
+    res.redirect("/");
+  }
+);
 
 // User signup
 app.post("/signup", async (req, res) => {
@@ -120,9 +206,7 @@ app.post("/signup", async (req, res) => {
               email: user.email,
             };
             console.log(user);
-            res.redirect(
-              `/account-created?username=${encodeURIComponent(user.username)}`
-            );
+            res.redirect("/account-created");
           }
         }
       });
@@ -175,7 +259,7 @@ app.post("/login", async (req, res) => {
   }
 });
 
-//Payment Successful
+// Guest Payment Successful
 app.post("/checkoutpage", async (req, res) => {
   const { username, email, password } = req.body;
   console.log(username);
@@ -209,9 +293,7 @@ app.post("/checkoutpage", async (req, res) => {
               email: user.email,
             };
             console.log(user);
-            res.redirect(
-              `/payment-success?username=${encodeURIComponent(user.username)}`
-            );
+            res.redirect("/payment-success");
           }
         }
       });
@@ -224,7 +306,12 @@ app.post("/checkoutpage", async (req, res) => {
   }
 });
 
-//Voucher Code
+//User Payment Successful
+app.post("/user-checkout", (req, res) => {
+  res.render("payment-success.ejs");
+});
+
+//Guest Voucher Code
 app.post("/apply-promo", async (req, res) => {
   const { promoCode } = req.body;
   if (promoCode == "WELCOME2024") {
@@ -240,6 +327,25 @@ app.post("/apply-promo", async (req, res) => {
   }
 });
 
+//User Voucher Code
+app.post("/apply-promo2", async (req, res) => {
+  const { promoCode } = req.body;
+  if (promoCode == "WELCOME2024") {
+    res.render("user-checkout.ejs", {
+      msg: "Promo code applied successfully.",
+      price: 59,
+      username: req.session.user.username,
+    });
+  } else {
+    res.render("user-checkout.ejs", {
+      msg: "Invalid promo code.",
+      price: 69,
+      username: req.session.user.username,
+    });
+  }
+});
+
+// Start the server
 app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+  console.log(`Server is running on port ${port}`);
 });

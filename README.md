@@ -1,19 +1,19 @@
 # TinCat - The Feline Dating App
 
-Welcome to the official repository for TinCat, the premier feline dating app. TinCat is designed as a full-stack web application that enables local kitties to find their purr-fect match through a seamless user experience. This README provides a comprehensive guide to understanding the project's structure, setup, and particularly its full-stack capabilities, including user account management and database interactions.
+Welcome to the official repository for TinCat, a themed full-stack web application designed as a playful dating platform for cats, utilizing Bootstrap for responsive design, Node.js for server-side logic, and PostgreSQL for data management. This README provides a comprehensive guide to understanding the project's structure, setup, and particularly its full-stack capabilities, including user account management, database interactions, and new features like Google OAuth and the user swipe page with chatbox integration.
 
 ## Full-Stack Functionality
 
 TinCat leverages the power of Bootstrap for front-end responsiveness, Node.js for server-side logic, and PostgreSQL for robust data management. This combination ensures a seamless and efficient platform where users can:
 
 - **Sign Up**: Create new user accounts. The registration process captures user information and stores it securely in our PostgreSQL database, ensuring that each account is unique and protected.
-- **Log In**: Return users can log in using their credentials. The authentication process is managed through Node.js, interfacing with PostgreSQL to retrieve and verify user data.
-- **Checkout Page**: Users interested in purchasing the Elite Plan can use a promo code for discounts, fill out billing information, and complete their transactions. The checkout process is backed by our secure server-side logic, ensuring that all transactions are handled safely and efficiently.
+- **Log In**: Return users can log in using their credentials or via Google OAuth. The authentication process is managed through Node.js, interfacing with PostgreSQL to retrieve and verify user data.
+- **Checkout**: Users interested in purchasing the Elite Plan can use a promo code for discounts, fill out billing information, and complete their transactions. The checkout process is backed by our secure server-side logic, ensuring that all transactions are handled safely and efficiently.
 - **Error Handling**: Comprehensive error handling is included to ensure a smooth user experience. This includes validation of promo codes during checkout, unique constraints on usernames and emails during registration, and proper feedback for login issues like incorrect passwords or unrecognized email addresses.
 
 ### Project Overview
 
-TinCat is not just about beautiful interfaces; it's about creating a robust application that handles real-world user data efficiently and securely. The app features a vibrant gradient background, playful icons, and a gallery of charming cat profiles, enhancing the overall user experience across all devices.
+TinCat is not just about beautiful interfaces; it's about creating a robust application that handles real-world user data efficiently and securely. The app features a vibrant gradient background, playful icons, a gallery of charming cat profiles, and a user swipe interface with chatbox integration, enhancing the overall user experience across all devices.
 
 ### Features
 
@@ -41,7 +41,7 @@ TinCat is not just about beautiful interfaces; it's about creating a robust appl
 
 ---
 
-- **Login Page**: On the Login page, users can enter their credentials. If authenticated successfully, they are redirected to the homepage with a personalized welcome message.
+- **Login Page**: On the Login page, users can enter their credentials or log in using Google OAuth. If authenticated successfully, they are redirected to the homepage with a personalized welcome message.
 
 <div align="center">
   <img src="public/images/Preview3.png" alt="Preview of Login Page" width="300">
@@ -64,6 +64,19 @@ TinCat is not just about beautiful interfaces; it's about creating a robust appl
 - **Newsletter Subscription**: Users can subscribe to the TinCat newsletter from the homepage. Upon successful subscription, a confirmation message pops up to alert the user.
 
 ![Preview of Newsletter Subscription Page ](public/images/Preview12.png)
+
+---
+
+- **User Swipe Page with Chatbox**: The user swipe page is accessible only to registered and logged-in users.
+  On the homepage, there is a "Find Your Match Now!" button that directs users to the swipe page, providing easy access to this functionality. Users can swipe through various cat profiles and initiate chats. This feature includes a dynamic chatbox demo for real-time messaging.
+
+<div align="center">
+  <img src="public/images/Preview15.png" alt="Preview of User Swipe Page" width="300">
+</div>
+
+<div align="center">
+  <img src="public/images/Preview16.png" alt="Preview of Chatbox" width="300">
+</div>
 
 # Security and Session Management
 
