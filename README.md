@@ -1,6 +1,6 @@
 # TinCat - The Feline Dating App
 
-Welcome to the official repository for TinCat, a themed full-stack web application designed as a playful dating platform for cats, utilizing Bootstrap for responsive design, Node.js for server-side logic, and PostgreSQL for data management. This README provides a comprehensive guide to understanding the project's structure, setup, and particularly its full-stack capabilities, including user account management, database interactions, and new features like Google OAuth and the user swipe page with chatbox integration.
+Welcome to the official repository for TinCat, a themed full-stack web application designed as a playful dating platform for cats, utilizing Bootstrap for responsive design, Node.js for server-side logic, and PostgreSQL for data management. This README provides a comprehensive guide to understand the project's structure, setup, and particularly its full-stack capabilities, including user account management, database interactions, and features like Google OAuth for login and the user swipe page with AI chatbox integration.
 
 ## Full-Stack Functionality
 
@@ -9,11 +9,12 @@ TinCat leverages the power of Bootstrap for front-end responsiveness, Node.js fo
 - **Sign Up**: Create new user accounts. The registration process captures user information and stores it securely in our PostgreSQL database, ensuring that each account is unique and protected.
 - **Log In**: Return users can log in using their credentials or via Google OAuth. The authentication process is managed through Node.js, interfacing with PostgreSQL to retrieve and verify user data.
 - **Checkout**: Users interested in purchasing the Elite Plan can use a promo code for discounts, fill out billing information, and complete their transactions. The checkout process is backed by our secure server-side logic, ensuring that all transactions are handled safely and efficiently.
+- **AI Chatbox**: Engage in intelligent and dynamic conversations using the AI-powered chatbox integrated with the Meta Blenderbot API, providing real-time responses and enhancing user interaction.
 - **Error Handling**: Comprehensive error handling is included to ensure a smooth user experience. This includes validation of promo codes during checkout, unique constraints on usernames and emails during registration, and proper feedback for login issues like incorrect passwords or unrecognized email addresses.
 
 ### Project Overview
 
-TinCat is not just about beautiful interfaces; it's about creating a robust application that handles real-world user data efficiently and securely. The app features a vibrant gradient background, playful icons, a gallery of charming cat profiles, and a user swipe interface with chatbox integration, enhancing the overall user experience across all devices.
+TinCat is not just about beautiful interfaces; it's about creating a robust application that handles real-world user data efficiently and securely. The app features a vibrant gradient background, playful icons, a gallery of charming cat profiles, and a user swipe interface with AI chatbox integration, enhancing the overall user experience across all devices.
 
 ### Features
 
@@ -67,18 +68,14 @@ TinCat is not just about beautiful interfaces; it's about creating a robust appl
 
 ---
 
-- **User Swipe Page with Chatbox**: The user swipe page is accessible only to registered and logged-in users.
-  On the homepage, there is a "Find Your Match Now!" button that directs users to the swipe page, providing easy access to this functionality. Users can swipe through various cat profiles and initiate chats. This feature includes a dynamic chatbox demo for real-time messaging.
+- **User Swipe Page with AI Chatbox Integration**: The user swipe page is accessible only to registered and logged-in users. On the homepage, there is a "Find Your Match Now!" button that directs users to the swipe page, providing easy access to this functionality.
+  Users can swipe through various cat profiles and initiate chats. This feature includes an AI-powered chatbox using the Meta Blenderbot API, allowing users to engage in intelligent and dynamic conversations. The AI Chatbox provides real-time responses, making interactions more engaging and personalized.
 
 <div align="center">
-  <img src="public/images/Preview15.png" alt="Preview of User Swipe Page" width="300">
+  <img src="public/images/Preview17.png" alt="Preview of AI Chatbox">
 </div>
 
-<div align="center">
-  <img src="public/images/Preview16.png" alt="Preview of Chatbox" width="300">
-</div>
-
-# Security and Session Management
+## Security and Session Management
 
 To enhance security, TinCat uses bcrypt for encrypting passwords and manages user sessions with cookies that last for 24 hours. Additionally, environment variables are used for sensitive configurations.
 
@@ -92,7 +89,7 @@ User sessions are managed with cookies that have a 24-hour expiration period. Th
 
 ## Environment Variables
 
-Sensitive information, such as database credentials and session secrets, are managed using environment variables. This prevents exposure of critical data in the codebase.
+Sensitive information, such as database credentials , API keys and session secrets, are managed using environment variables. This prevents exposure of critical data in the codebase.
 
 # Error Handling in TinCat
 
@@ -125,7 +122,7 @@ Example of error feedback on the sign-up page:
   <img src="public/images/Preview11.png" alt="Username or Email Exists Error" width="300">
 </div>
 
-# Error Handling on the Login Page
+## Error Handling on the Login Page
 
 TinCat's login page incorporates comprehensive error handling to ensure a seamless and user-friendly authentication process. The system is designed to provide clear, actionable feedback for common issues such as incorrect passwords or unrecognized email addresses. Here’s how these errors are managed:
 
