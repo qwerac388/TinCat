@@ -49,6 +49,10 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+//CallBackURL for Heroku Deployment
+// https://tincatapp-494be906216d.herokuapp.com/auth/google/callback
+// http://localhost:3000/auth/google/callback
+
 passport.use(
   new GoogleStrategy(
     {
@@ -178,6 +182,14 @@ app.get(
     res.redirect("/");
   }
 );
+
+//Passing the environment variable to user.js for front end use
+app.get("/api/config", (req, res) => {
+  res.json({
+    META_BLENDERBOT_HUGGINGFACE_API_KEY:
+      process.env.META_BLENDERBOT_HUGGINGFACE_API_KEY,
+  });
+});
 
 // User signup
 app.post("/signup", async (req, res) => {

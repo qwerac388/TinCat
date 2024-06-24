@@ -6,15 +6,6 @@ typingIndicator.className = "typing-indicator";
 typingIndicator.textContent = "Typing...";
 chatboxMessages.appendChild(typingIndicator);
 
-// Pre-defined responses
-const responses = [
-  "Hi there! Does your cat do any funny tricks?",
-  "That's interesting! Do you dress up your cat for holidays?",
-  "It was hilarious! Do you have any funny cat stories?",
-  "It was great chatting with you! Give your cat a pet from me!",
-];
-
-let responseIndex = 0;
 let typingTimeout;
 
 chatboxSend.addEventListener("click", sendMessage);
@@ -26,23 +17,61 @@ chatboxInput.addEventListener("keypress", (e) => {
   }
 });
 
-function sendMessage() {
+async function sendMessage() {
   const message = chatboxInput.value;
   if (message.trim() !== "") {
     displayMessage(message, "user");
     chatboxInput.value = "";
     typingIndicator.classList.remove("visible");
     clearTimeout(typingTimeout);
-    setTimeout(sendResponse, 1000); // Simulate a delay for response
+    setTimeout(() => sendResponse(message), 1000); // Simulate a delay for response
   }
 }
 
-function sendResponse() {
-  if (responseIndex < responses.length) {
-    displayMessage(responses[responseIndex], "other");
-    responseIndex++;
-  } else {
-    displayMessage("User is no longer online.", "other");
+async function getApiKey() {
+  const response = await fetch("/api/config");
+  const config = await response.json();
+  return config.META_BLENDERBOT_HUGGINGFACE_API_KEY;
+}
+
+async function sendResponse(userMessage) {
+  try {
+    const API_KEY = await getApiKey();
+    const payload = { inputs: userMessage };
+    console.log("Sending payload:", JSON.stringify(payload)); // Debugging payload
+
+    const response = await fetch(
+      "https://api-inference.huggingface.co/models/facebook/blenderbot-400M-distill",
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${API_KEY}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      }
+    );
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(
+        `Error: ${response.status} ${response.statusText} - ${errorText}`
+      );
+    }
+
+    const data = await response.json();
+    console.log("Received response:", JSON.stringify(data)); // Debugging response
+
+    // Extracting the generated text from the first object in the array
+    const botMessage =
+      data[0]?.generated_text || "I'm not sure how to respond to that.";
+    displayMessage(botMessage, "other");
+  } catch (error) {
+    console.error("Error fetching response:", error);
+    displayMessage(
+      "Sorry, something went wrong. Please try again later.",
+      "other"
+    );
   }
 }
 
